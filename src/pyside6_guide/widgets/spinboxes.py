@@ -10,7 +10,11 @@ from PySide6.QtWidgets import (
     QLabel,
     QMainWindow,
     QVBoxLayout,
-    QWidget,
+    QHBoxLayout,
+    QSpinBox,
+    QDoubleSpinBox,
+    QPushButton,
+    QWidget
 )
 
 
@@ -18,32 +22,27 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Window Title")
+        self.setWindowTitle("Rectangle Area Calculator")
         self.setContentsMargins(12, 12, 12, 12)
         self.resize(320, 240)
 
-        layout = QVBoxLayout()
-        self.instructions = "Make an app that gets two different numbers: "
-        self.instructions += "a whole number (integer) and a number with "
-        self.instructions += "a decimal point (float). Put them each in "
-        self.instructions += "a horizontal layout, and add two buttons: "
-        self.instructions += "one that gets then displays the inputs, and "
-        self.instructions += "one that resets the inputs and displays these "
-        self.instructions += "instructions\n\n"
-        self.instructions += "Feel free to modify these instructions once "
-        self.instructions += "you are done. Make sure the isntructions are "
-        self.instructions += "clear to the user as to what they should do."
-
-        self.instructions_label = QLabel(self.instructions)
-        self.instructions_label.setWordWrap(True)
-
         # TODO: Create An HBox Layout with a QSpinBox that gets a whole number
+        layout = QHBoxLayout()
+
+        self.long = QDoubleSpinBox()
 
         # TODO: Create another HBox that gets a number with a decimal point
+        self.wide = QDoubleSpinBox()
 
         # TODO: Add 2 buttons in an hbox: one for calculating & a clear button
+        self.calculate_button = QPushButton("Calculate")
+        self.clear_button = QPushButton("Clear")
+
+        self.calculate_button.clicked.connect(self.calculate)
+        self.clear_button.clicked.connect(self.clear)
 
         # TODO: Create an output label to display the instructions and results
+        self.output = QLabel("Type the length and width into the provided boxes \n and press calculate to find the area of your rectangle")
 
         # TODO: Re-write the instructions to tell the user what to do.
 
@@ -56,7 +55,11 @@ class MainWindow(QMainWindow):
         """
 
         # add widgets & layouts to main layout
-        layout.addWidget(self.instructions_label)
+        layout.addWidget(self.long)
+        layout.addWidget(self.wide)
+        layout.addWidget(self.calculate_button)
+        layout.addWidget(self.clear_button)
+        layout.addWidget(self.output)
 
         # [OPTIONAL] Add a stretch to move everything up
         layout.addStretch()
@@ -66,6 +69,14 @@ class MainWindow(QMainWindow):
 
         # Set the central widget of the Window.
         self.setCentralWidget(widget)
+        
+    def calculate(self):
+        product = self.long.value() * self.wide.value()
+        product = round(product, 2)
+        self.output.setText("The area of the rectangle is " + str(product))
+    
+    def clear(self):
+        self.output.setText("Type the length and width into the provided boxes \n and press calculate to find the area of your rectangle")
 
 
 if __name__ == "__main__":
