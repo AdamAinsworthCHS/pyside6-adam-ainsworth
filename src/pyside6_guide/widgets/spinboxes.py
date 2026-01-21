@@ -77,6 +77,8 @@ class MainWindow(QMainWindow):
     
     def clear(self):
         self.output.setText("Type the length and width into the provided boxes \n and press calculate to find the area of your rectangle")
+        self.long.setValue(0)
+        self.wide.setValue(0)
 
 
 if __name__ == "__main__":
