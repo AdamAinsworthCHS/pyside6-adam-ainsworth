@@ -81,7 +81,7 @@ class MainWindow(QMainWindow):
         layout = QVBoxLayout()
 
         # add a label to display money
-        self.money_label = QLabel("Money: 200")
+        self.money_label = QLabel("Money: $200")
 
         # add list of buyable items
         self.shop_list = QListWidget()
