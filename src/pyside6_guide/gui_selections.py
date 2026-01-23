@@ -44,20 +44,20 @@ app.setStyleSheet(
 QLabel {
     background-color: #755a24;
     color: #fffc33;
-    font-family: Pixeled;
-    font-size: 12px;
+    font-family: dogica;
+    font-size: 14px;
 }
 QListWidget {
     background-color:rgb(68, 50, 14);
     color: #fffc33;
-    font-family: Pixeled;
-    font-size: 12px;
+    font-family: dogica;
+    font-size: 13px;
 }
 QMainWindow {
     background-color: #755a24;
     color: #fffc33;
-    font-family: Pixeled;
-    font-size: 12px;
+    font-family: dogica;
+    font-size: 13px;
 }
 """
 )
@@ -71,8 +71,8 @@ class MainWindow(QMainWindow):
         self.resize(320, 240)
         
         # pixel font
-        font_id = QFontDatabase.addApplicationFont("resources/fonts/Pixeled.ttf")
-        pixeled_font = QFontDatabase.applicationFontFamilies(font_id)[0]
+        font_id = QFontDatabase.addApplicationFont("resources/fonts/dogica.ttf")
+        dogica_font = QFontDatabase.applicationFontFamilies(font_id)[0]
 
         # money variable
         self.money = 200
