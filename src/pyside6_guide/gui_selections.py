@@ -15,8 +15,29 @@ from PySide6.QtWidgets import (
     QLabel
 )
 
+# shopitem class
+class ShopItem:
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+
 # variables
 owned_items = []
+healing_potion = ShopItem("Healing Potion", 40)
+mana_potion = ShopItem("Mana Potion", 30)
+copper_blade = ShopItem("Copper Blade", 50)
+copper_helm = ShopItem("Copper Helm", 70)
+copper_shield = ShopItem("Copper Shield", 60)
+shop_items = [healing_potion, mana_potion, copper_blade, copper_helm, copper_shield]
+shop_items_string = [
+    healing_potion.name + " ($40)", 
+    mana_potion.name + " ($30)", 
+    copper_blade.name + " ($50)", 
+    copper_helm.name + " ($70)", 
+    copper_shield.name + " ($60)"
+]
+
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -26,22 +47,27 @@ class MainWindow(QMainWindow):
         self.setContentsMargins(12, 12, 12, 12)
         self.resize(320, 240)
 
-        
+        # money variable
+        self.money = 200
 
         # create layout
         layout = QVBoxLayout()
 
+        # add a label to display money
+        self.money_label = QLabel("Money: 200")
+
         # add list of buyable items
         self.shop_list = QListWidget()
-        self.shop_list.addItems(["item1", "item2", "item3"])
+        self.shop_list.addItems(shop_items_string)
         self.shop_list.itemClicked.connect(self.buy_item)
 
         # add a label to display owned items
-        self.inventory = QLabel("Inventory: ")
+        self.inventory_label = QLabel("Inventory: ")
 
         # add widgets & layouts to main layout
+        layout.addWidget(self.money_label)
         layout.addWidget(self.shop_list)
-        layout.addWidget(self.inventory)
+        layout.addWidget(self.inventory_label)
 
         widget = QWidget()
         widget.setLayout(layout)
@@ -50,11 +76,18 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(widget)
 
     def buy_item(self):
-        stringItemsList = ""
-        owned_items.append(self.shop_list.selectedItems()[0])
-        for i in range (len(owned_items)):
-            stringItemsList += owned_items[i].text() + ", "
-        self.inventory.setText("Inventory: " + stringItemsList)
+        string_items_list = ""
+        item_pos = shop_items_string.index(self.shop_list.selectedItems()[0].text())
+        if self.money >= shop_items[item_pos].price:
+            self.money -= shop_items[item_pos].price
+            owned_items.append(shop_items[item_pos])
+            
+            for i in range (len(owned_items)):
+                string_items_list += owned_items[i].name + ", "
+            self.inventory_label.setText("Inventory: " + string_items_list)
+            self.money_label.setText("Money: " + "$" + str(self.money))
+
+        
 
 
 if __name__ == "__main__":
