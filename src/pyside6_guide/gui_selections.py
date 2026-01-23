@@ -68,7 +68,7 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle("RPG Shop")
         self.setContentsMargins(12, 12, 12, 12)
-        self.resize(320, 240)
+        self.resize(320, 400)
         
         # pixel font
         font_id = QFontDatabase.addApplicationFont("resources/fonts/dogica.ttf")
@@ -87,14 +87,18 @@ class MainWindow(QMainWindow):
         self.shop_list = QListWidget()
         self.shop_list.addItems(shop_items_string)
         self.shop_list.itemClicked.connect(self.buy_item)
+        shop_label = QLabel("Shop:")
 
-        # add a label to display owned items
-        self.inventory_label = QLabel("Inventory: ")
+        # add a list widget to display owned items
+        self.inventory_list = QListWidget()
+        inventory_label = QLabel("Inventory:")
 
         # add widgets & layouts to main layout
         layout.addWidget(self.money_label)
+        layout.addWidget(shop_label)
         layout.addWidget(self.shop_list)
-        layout.addWidget(self.inventory_label)
+        layout.addWidget(inventory_label)
+        layout.addWidget(self.inventory_list)
 
         widget = QWidget()
         widget.setLayout(layout)
@@ -103,15 +107,15 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(widget)
 
     def buy_item(self):
-        string_items_list = ""
+        string_items_list = []
         item_pos = shop_items_string.index(self.shop_list.selectedItems()[0].text())
         if self.money >= shop_items[item_pos].price:
             self.money -= shop_items[item_pos].price
             owned_items.append(shop_items[item_pos])
-            
             for i in range (len(owned_items)):
-                string_items_list += owned_items[i].name + ", "
-            self.inventory_label.setText("Inventory: " + string_items_list)
+                string_items_list.clear()
+                string_items_list.append(owned_items[i].name)
+            self.inventory_list.addItems(string_items_list)
             self.money_label.setText("Money: " + "$" + str(self.money))
 
         
