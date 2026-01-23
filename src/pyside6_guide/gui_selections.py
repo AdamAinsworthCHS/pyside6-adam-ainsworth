@@ -1,11 +1,11 @@
 """
-app_with_style.py
-by HundredVisionsGuy
-A styling challenge to adjust sizes and styles of
-fonts and colors.
+gui_selections.py
+by Adam Ainsworth
+An rpg shop gui
 """
 
 import sys
+from PySide6.QtGui import QFont, QFontDatabase
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -37,15 +37,42 @@ shop_items_string = [
     copper_shield.name + " ($60)"
 ]
 
-
+# q applicaiton
+app = QApplication(sys.argv)
+app.setStyleSheet(
+"""
+QLabel {
+    background-color: #755a24;
+    color: #fffc33;
+    font-family: Pixeled;
+    font-size: 12px;
+}
+QListWidget {
+    background-color:rgb(68, 50, 14);
+    color: #fffc33;
+    font-family: Pixeled;
+    font-size: 12px;
+}
+QMainWindow {
+    background-color: #755a24;
+    color: #fffc33;
+    font-family: Pixeled;
+    font-size: 12px;
+}
+"""
+)
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Window Title")
+        self.setWindowTitle("RPG Shop")
         self.setContentsMargins(12, 12, 12, 12)
         self.resize(320, 240)
+        
+        # pixel font
+        font_id = QFontDatabase.addApplicationFont("resources/fonts/Pixeled.ttf")
+        pixeled_font = QFontDatabase.applicationFontFamilies(font_id)[0]
 
         # money variable
         self.money = 200
@@ -91,7 +118,6 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
 
